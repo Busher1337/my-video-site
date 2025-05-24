@@ -7,32 +7,34 @@
     @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
 
     html, body {
-      margin: 0; padding: 0;
+      margin: 0;
+      padding: 0;
       background: black;
       font-family: 'Russo One', sans-serif;
       cursor: pointer;
       height: 100vh;
-      overflow-y: visible; /* Убираем hidden, чтобы не обрезались элементы */
+      overflow-y: visible;
       user-select: none;
       color: #ff2d95;
       position: relative;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
     .falling-phrase {
-      position: fixed; /* fixed для корректной позиции на экране */
+      position: fixed;
       white-space: nowrap;
-      font-size: 24px;
+      font-size: 28px;
       font-weight: 700;
       color: #ff2d95;
       text-shadow:
-        0 0 5px #ff2d95,
-        0 0 10px #ff2d95,
-        0 0 20px #ff2d95;
+        0 0 2px #ff2d95,
+        0 0 4px #ff5ca3;
       pointer-events: none;
       animation: fall 6s linear forwards;
       user-select: none;
-      opacity: 0.9;
-      left: 0; /* обязательно для fixed */
+      opacity: 0.95;
+      left: 0;
       top: 0;
       will-change: transform, opacity;
     }
@@ -49,7 +51,7 @@
     }
 
     .heart {
-      position: fixed; /* fixed для надёжного позиционирования */
+      position: fixed;
       pointer-events: none;
       color: #ff2d95;
       font-size: 24px;
@@ -58,9 +60,8 @@
       opacity: 1;
       transition: opacity 1.2s ease-out;
       text-shadow:
-        0 0 5px #ff2d95,
-        0 0 10px #ff2d95,
-        0 0 20px #ff2d95;
+        0 0 2px #ff2d95,
+        0 0 4px #ff5ca3;
     }
   </style>
 </head>
@@ -72,15 +73,13 @@
     phrase.className = "falling-phrase";
     phrase.textContent = "Love You Настикс ❤️";
 
-    // Случайный размер шрифта 18-28px (чуть меньше для телефонов)
-    const fontSize = Math.random() * 10 + 18;
+    const fontSize = Math.random() * 10 + 25;
     phrase.style.fontSize = fontSize + "px";
 
-    // Случайная позиция по ширине экрана
-    phrase.style.left = Math.random() * (window.innerWidth - fontSize * phrase.textContent.length / 2) + "px";
+    const textWidth = fontSize * phrase.textContent.length * 0.6;
+    phrase.style.left = Math.random() * (window.innerWidth - textWidth) + "px";
     phrase.style.top = "-40px";
 
-    // Падение от 5 до 8 секунд
     const duration = Math.random() * 3 + 5;
     phrase.style.animationDuration = duration + "s";
 
@@ -89,10 +88,8 @@
     setTimeout(() => phrase.remove(), duration * 1000);
   }
 
-  // Частота появления — каждые 100 мс
   setInterval(createFallingPhrase, 100);
 
-  // Сердечки при клике (плавный разлет)
   document.body.addEventListener("click", (e) => {
     const hearts = ["💖", "💘", "💕", "💞", "❤️"];
 
@@ -101,10 +98,8 @@
       heart.className = "heart";
       heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
 
-      // Сдвиг для позиционирования по фиксированной координате
       heart.style.left = e.clientX + "px";
       heart.style.top = e.clientY + "px";
-
       heart.style.fontSize = (Math.random() * 15 + 20) + "px";
 
       document.body.appendChild(heart);
