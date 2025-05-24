@@ -9,34 +9,26 @@
     html, body {
       margin: 0;
       padding: 0;
-      background: black;
+      background: #000;
       font-family: 'Russo One', sans-serif;
-      cursor: pointer;
       height: 100vh;
-      overflow-y: visible;
+      overflow: hidden;
       user-select: none;
-      color: #ff2d95;
-      position: relative;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
+      cursor: pointer;
     }
 
     .falling-phrase {
       position: fixed;
       white-space: nowrap;
-      font-size: 28px;
+      font-size: 24px;
       font-weight: 700;
-      color: #ff2d95;
-      text-shadow:
-        0 0 2px #ff2d95,
-        0 0 4px #ff5ca3;
+      color: #ff66c4;
+      text-shadow: 0 0 3px #ff66c4;
       pointer-events: none;
       animation: fall 6s linear forwards;
-      user-select: none;
-      opacity: 0.95;
+      opacity: 0.9;
       left: 0;
       top: 0;
-      will-change: transform, opacity;
     }
 
     @keyframes fall {
@@ -53,15 +45,12 @@
     .heart {
       position: fixed;
       pointer-events: none;
-      color: #ff2d95;
-      font-size: 24px;
+      color: #ff66c4;
+      font-size: 22px;
       user-select: none;
-      will-change: transform, opacity;
       opacity: 1;
+      text-shadow: 0 0 3px #ff66c4;
       transition: opacity 1.2s ease-out;
-      text-shadow:
-        0 0 2px #ff2d95,
-        0 0 4px #ff5ca3;
     }
   </style>
 </head>
@@ -73,14 +62,13 @@
     phrase.className = "falling-phrase";
     phrase.textContent = "Love You Настикс ❤️";
 
-    const fontSize = Math.random() * 10 + 25;
+    const fontSize = Math.random() * 8 + 20;
     phrase.style.fontSize = fontSize + "px";
 
-    const textWidth = fontSize * phrase.textContent.length * 0.6;
-    phrase.style.left = Math.random() * (window.innerWidth - textWidth) + "px";
+    phrase.style.left = Math.random() * (window.innerWidth - fontSize * phrase.textContent.length / 2) + "px";
     phrase.style.top = "-40px";
 
-    const duration = Math.random() * 3 + 5;
+    const duration = Math.random() * 2 + 5;
     phrase.style.animationDuration = duration + "s";
 
     document.body.appendChild(phrase);
@@ -88,24 +76,25 @@
     setTimeout(() => phrase.remove(), duration * 1000);
   }
 
-  setInterval(createFallingPhrase, 100);
+  setInterval(createFallingPhrase, 120);
 
   document.body.addEventListener("click", (e) => {
     const hearts = ["💖", "💘", "💕", "💞", "❤️"];
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 15; i++) {
       const heart = document.createElement("div");
       heart.className = "heart";
       heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
 
       heart.style.left = e.clientX + "px";
       heart.style.top = e.clientY + "px";
-      heart.style.fontSize = (Math.random() * 15 + 20) + "px";
+
+      heart.style.fontSize = (Math.random() * 10 + 20) + "px";
 
       document.body.appendChild(heart);
 
       const angle = Math.random() * 2 * Math.PI;
-      const distance = Math.random() * 150 + 50;
+      const distance = Math.random() * 120 + 40;
 
       const startX = e.clientX;
       const startY = e.clientY;
@@ -121,7 +110,7 @@
         const x = startX + Math.cos(angle) * distance * progress;
         const y = startY + Math.sin(angle) * distance * progress;
 
-        heart.style.transform = `translate(${x - startX}px, ${y - startY}px) scale(${1 - progress * 0.7})`;
+        heart.style.transform = `translate(${x - startX}px, ${y - startY}px) scale(${1 - progress * 0.6})`;
         heart.style.opacity = 1 - progress;
 
         if (progress < 1) {
